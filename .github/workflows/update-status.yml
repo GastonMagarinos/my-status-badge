@@ -2,8 +2,13 @@ name: Update Status Badge
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:      # Esto te asegura el botón manual
   schedule:
-    - cron: '*/30 * * * *' # Se ejecuta cada 30 minutos para comprobar inactividad
+    - cron: '*/30 * * * *'
+
+# AQUÍ ESTÁ EL TRUCO: Le damos permiso explícito de escritura al token de la Action
+permissions:
+  contents: write
 
 jobs:
   update-badge:
@@ -11,6 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Usamos el event_name para saber si fue un push (online) o cron/manual (offline)
       - name: Set Status
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
