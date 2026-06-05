@@ -20,9 +20,9 @@ jobs:
       - name: Set Status
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
-            echo '{"schemaVersion": 1, "label": "status", "message": "online", "color": "brightgreen", "style": "flat"}' > status.json
+            echo '{"schemaVersion": 1, "label": "Status", "message": "online", "color": "brightgreen", "style": "flat"}' > status.json
           else
-            echo '{"schemaVersion": 1, "label": "status", "message": "offline", "color": "red", "style": "flat"}' > status.json
+            echo '{"schemaVersion": 1, "label": "Status", "message": "offline", "color": "red", "style": "flat"}' > status.json
           fi
 
       - name: Commit changes
