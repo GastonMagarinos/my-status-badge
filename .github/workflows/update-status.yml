@@ -30,3 +30,8 @@ jobs:
           git config --local user.name "GitHub Action"
           git add status.json
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update status badge" && git push)
+
+      - name: Purge GitHub Cache
+        run: |
+          curl -X PURGE https://camo.githubusercontent.com/* || true
+          curl -s "https://raw.githubusercontent.com/GastonMagarinos/my-status-badge/main/status.json" > /dev/null
