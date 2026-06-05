@@ -17,12 +17,12 @@ jobs:
       - uses: actions/checkout@v4
 
       # Usamos el event_name para saber si fue un push (online) o cron/manual (offline)
-      - name: Set Status
+     - name: Set Status
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
-            echo '{"schemaVersion": 1, "label": "Status", "message": "online", "color": "brightgreen", "style": "flat"}' > status.json
+            echo '{"schemaVersion": 1, "label": "Status", "message": "online", "color": "brightgreen"}' > status.json
           else
-            echo '{"schemaVersion": 1, "label": "Status", "message": "offline", "color": "red", "style": "flat"}' > status.json
+            echo '{"schemaVersion": 1, "label": "Status", "message": "offline", "color": "red"}' > status.json
           fi
 
       - name: Commit changes
