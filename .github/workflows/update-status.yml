@@ -1,0 +1,27 @@
+name: Update Status Badge
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '*/30 * * * *' # Se ejecuta cada 30 minutos para comprobar inactividad
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Status
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo '{"schemaVersion": 1, "label": "status", "message": "online", "color": "brightgreen", "style": "flat-square"}' > status.json
+          else
+            echo '{"schemaVersion": 1, "label": "status", "message": "offline", "color": "red", "style": "flat-square"}' > status.json
+          fi
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add status.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update status badge" && git push)
